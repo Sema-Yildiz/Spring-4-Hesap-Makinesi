@@ -1,0 +1,198 @@
+<html>
+<head>
+<title>Calculator</title>
+
+<body>
+
+  <style>
+        .sayfa{
+            
+            width:360px;
+            margin:auto;
+        }
+        table{
+            background:#efefef;
+            border-spacing: 10px;
+            text-align: center;
+        }
+        
+        table .btn{
+            width: 60px;
+            background:gray;
+            text-align: center;
+            line-height: 60px;
+            color:#fff;
+            font-size: 1.5em;
+        }
+        #islem, #gosterge{
+            padding:5px;
+            text-align: right;
+        }
+        
+        #gosterge{
+            height: 50px;
+            background:#ddfafa;
+            color:#333;
+            font-size: 1.8em;
+            text-align: right;
+            line-height: 40px;
+            padding:10px;
+            box-sizing: border-box;
+        }
+        #islem{
+        	height: 30px;
+            background: #aaa;
+        }
+    </style>
+    
+</head>
+ 
+<body>
+    <div class="sayfa">
+        <h1>Calculator</h1>
+        <table>
+            <tr>
+                <td colspan="5" id="islem"></td>
+            </tr>
+            <tr>
+                <td colspan="5" id="gosterge"></td>
+            </tr>
+            <tr>
+                <td class="btn btnRakam">7</td>
+                <td class="btn btnRakam">8</td>
+                <td class="btn btnRakam">9</td>
+                <td class="btn btnOpt">/</td>
+            </tr>
+            <tr>
+                <td class="btn btnRakam">4</td>
+                <td class="btn btnRakam">5</td>
+                <td class="btn btnRakam">6</td>
+                <td class="btn btnOpt">*</td>
+            </tr>
+            <tr>
+                <td class="btn btnRakam">1</td>
+                <td class="btn btnRakam">2</td>
+                <td class="btn btnRakam">3</td>
+                <td class="btn btnOpt">-</td>
+                <td rowspan="2" class="btn btnEsit">=</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="btn btnRakam">0</td>
+                <td class="btn btnOpt">+</td>
+            </tr>
+        </table>
+    </div>
+
+	<script>
+	
+		<!--Genel deðiþkenleri tanýmlama-->
+		var optDurum=false, opt="", sonuc=0;
+		
+		<!--nesnelerin oluþturulmasý-->
+		var btnRakam=document.querySelectorAll(".btnRakam");  <!--rakamlar(dizi olarak)-->
+		
+		var gosterge=document.querySelector("#gosterge");     <!--gösterge paneli-- querySelector degere erisim-->
+		
+		var btnOpt=document.querySelectorAll(".btnOpt");      <!--iþlem butonlarý-->
+		
+		var islem=document.querySelector("#islem");
+		
+		var btnEsit=document.querySelector(".btnEsit");
+		
+		<!--Butonlara basýldý kontrolü-->
+		btnRakam.forEach(function(element){
+			
+			element.onclick=function(e){
+				
+				
+				if(gosterge.textContent=="0" || optDurum) <!--basþtaki 0'ý kaldýrmak  opt basýlýp basýlmadýnýn kontrolü-->
+					gosterge.textContent="";
+														   <!--console.log(this.textContent); <!--td hücresindeki deðer-->
+				
+					gosterge.textContent+=this.textContent;    <!--text i okuyup td de ki deðerlerle birleþtirdik-->
+					optDurum=false; 						   <!-- + - gibi iþlem yapýldýðýnda text kutsu	nu sfýrlar-->
+					
+			}
+			
+		});
+		
+		
+		btnOpt.forEach(function(element){
+			
+			element.onclick=function(e){
+				optDurum=true;
+				var yeniOpt=this.textContent;
+				
+				<!--iþlem paneli-->
+				islem.textContent=islem.textContent +""+gosterge.textContent+""+yeniOpt; 
+				
+				<!--sonuc yazýlýmý-->
+				
+				switch(opt)  <!--hafýzada tutulan opt iþlemi-->
+				{
+					case "+":gosterge.textContent=(sonuc + Number(gosterge.textContent)); 
+					break;
+					
+					case "-":gosterge.textContent=(sonuc - Number(gosterge.textContent)); 
+					break;
+					
+					case "*":gosterge.textContent=(sonuc * Number(gosterge.textContent)); 
+					break;
+					
+					case "/":gosterge.textContent=(sonuc / Number(gosterge.textContent)); 
+					break;
+				}
+				sonuc=Number(gosterge.textContent);
+				opt=yeniOpt;
+				
+			}
+			
+		});
+		
+		btnEsit.onclick=function(e)
+		{
+			islem.textContent="";
+			optDurum=true;
+			switch(opt)  <!--hafýzada tutulan opt iþlemi-->
+			{
+				case "+":gosterge.textContent=(sonuc + Number(gosterge.textContent)); 
+				break;
+				
+				case "-":gosterge.textContent=(sonuc - Number(gosterge.textContent)); 
+				break;
+				
+				case "*":gosterge.textContent=(sonuc * Number(gosterge.textContent)); 
+				break;
+				
+				case "/":gosterge.textContent=(sonuc / Number(gosterge.textContent)); 
+				break;
+			}
+			sonuc=Number(gosterge.textContent);
+			goster.textContent=sonuc;
+			sonuc=0;
+			opt="";
+		}
+		
+		
+		
+		
+	</script>
+
+
+<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+</body>
+</html>
